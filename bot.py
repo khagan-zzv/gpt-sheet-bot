@@ -2,8 +2,8 @@ import asyncio
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 import secrets
-from ai_control import process_message
-from auth import check_sheet_access
+from ai_control.ai_control import process_message
+from sheets.auth import check_sheet_access
 from secrets import token
 
 BOT_TOKEN = token

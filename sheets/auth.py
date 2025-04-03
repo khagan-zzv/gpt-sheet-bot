@@ -8,8 +8,8 @@ from googleapiclient.errors import HttpError
 import secrets
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
-TOKEN_PATH = "token.json"
-CREDS_PATH = "credentials.json"
+TOKEN_PATH = "../token.json"
+CREDS_PATH = "../credentials.json"
 
 def get_sheets_service():
     creds = None
