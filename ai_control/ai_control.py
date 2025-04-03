@@ -1,7 +1,7 @@
 import json
 import openai
 
-from tools import function_tools
+from ai_control.function_tools import function_tools
 from sheets.readSheet import read_entire_sheet
 from secrets import open_ai_key, sheetID
 from sheets.writeSheet import write_to_sheet, write_multiple_to_sheet

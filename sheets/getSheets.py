@@ -1,5 +1,8 @@
 from googleapiclient.errors import HttpError
-from auth import get_sheets_service
+
+from sheets.auth import get_sheets_service
+
+
 def list_sheet_names(sheet_id: str):
     try:
         service = get_sheets_service()

@@ -1,5 +1,7 @@
 from googleapiclient.errors import HttpError
-from auth import get_sheets_service
+
+from sheets.auth import get_sheets_service
+
 
 def read_entire_sheet(sheet_id):
     try:

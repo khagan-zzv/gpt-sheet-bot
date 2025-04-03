@@ -1,5 +1,7 @@
 from googleapiclient.errors import HttpError
-from auth import get_sheets_service
+
+from sheets.auth import get_sheets_service
+
 
 def write_to_sheet(sheet_id: str, range_str: str, value: str):
     print(f"Writing {value} to {range_str}")
