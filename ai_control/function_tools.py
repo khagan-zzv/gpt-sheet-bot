@@ -70,9 +70,10 @@ function_tools = [
             "type": "object",
             "properties": {
                 "sheet_data": {"type": "string"},
-                "search_for": {"type": "string"}
+                "search_for": {"type": "string"},
+                "sheet_name": {"type": "string"}
             },
-            "required": ["sheet_data", "search_for"],
+            "required": ["sheet_data", "search_for","sheet_name"],
             "additionalProperties": False
         },
         "strict": True

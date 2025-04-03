@@ -1,9 +1,11 @@
 import json
 import openai
 
+import state
 from ai_control.function_tools import function_tools
 from sheets.readSheet import read_entire_sheet
-from secrets import open_ai_key, sheetID
+from secrets import open_ai_key
+from state import sheetID
 from sheets.writeSheet import write_to_sheet, write_multiple_to_sheet
 from sheets.findCell import find_cell
 from sheets.getSheets import list_sheet_names
@@ -25,21 +27,24 @@ def process_message(message, sheet_id):
 
         sheet_tabs = list_sheet_names(sheet)
         sheet_list_text = ", ".join(sheet_tabs)
+        print(sheet_list_text)
+        print(state.system_prompt)
 
         system_message = {
             "role": "developer",
             "content": (
-                "You are an AI Gym Training assistant helping manage a workout spreadsheet.\n"
-                "The user may ask to view or change their workout.\n"
+                state.system_prompt +"\n"
                 "You have access to the following tools:\n"
                 "1. get_sheet_data: View the sheet content.\n"
                 "2. find_cell: Locate a specific value.\n"
                 "3. write_to_sheet: Update one cell.\n"
                 "4. write_multiple_to_sheet: Update multiple cells in one go.\n"
-                "5. list_sheets: Get the list of sheet tabs.\n"
+                "5. list_sheets: Get the list of sheet tabs and their names.\n"
+                f"Sheet ID you will be working with: {sheet}"
                 f"\nAvailable sheet tabs: {sheet_list_text}\n"
                 f"\nCurrent sheet content:\n{sheet_context}\n"
                 "\nAlways find the correct cell and sheet before writing!"
+                "To achieve this first call list_sheets and then pass sheet name to find_cell to get correct cell.\n"
             )
         }
 
