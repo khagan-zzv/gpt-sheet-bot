@@ -1,0 +1,31 @@
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Google Sheets & OpenAI credentials
+credentials.json
+token.json
+secrets.py
+
+# VS Code settings (if you're using it)
+.vscode/
+
+# Environment variables
+.env
+.env.*
+
+# Logs or temp files
+*.log
+*.tmp
+
+# Mac/OS-specific
+.DS_Store
