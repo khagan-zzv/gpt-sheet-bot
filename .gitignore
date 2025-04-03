@@ -16,8 +16,8 @@ credentials.json
 token.json
 secrets.py
 
-# VS Code settings (if you're using it)
-.vscode/
+
+.idea/
 
 # Environment variables
 .env
