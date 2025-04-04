@@ -7,6 +7,7 @@ def list_sheet_names(sheet_id: str):
     try:
         service = get_sheets_service()
         metadata = service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+        print("List sheets called")
         return [sheet["properties"]["title"] for sheet in metadata.get("sheets", [])]
     except HttpError as err:
         return ["Error: " + str(err)]

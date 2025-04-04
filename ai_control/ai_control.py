@@ -14,7 +14,7 @@ openai.api_key = open_ai_key
 
 chat_history = []
 MAX_HISTORY = 10
-tools=function_tools
+tools = function_tools
 
 
 def process_message(message, sheet_id):
@@ -33,19 +33,21 @@ def process_message(message, sheet_id):
         system_message = {
             "role": "developer",
             "content": (
-                state.system_prompt +"\n"
-                "You have access to the following tools:\n"
-                "1. get_sheet_data: View the sheet content.\n"
-                "2. find_cell: Locate a specific value.\n"
-                "3. write_to_sheet: Update one cell.\n"
-                "4. write_multiple_to_sheet: Update multiple cells in one go.\n"
-                "5. list_sheets: Get the list of sheet tabs and their names.\n"
-                f"Sheet ID you will be working with: {sheet}"
-                f"\nAvailable sheet tabs: {sheet_list_text}\n"
-                f"\nCurrent sheet content:\n{sheet_context}\n"
-                "\nAlways find the correct cell and sheet before writing!"
-                "To achieve this first call list_sheets and then pass sheet name to find_cell to get correct cell.\n"
+                    state.system_prompt + "\n\n"
+                                          "You are managing a Google Sheet with multiple tabs (pages).\n"
+                                          "You have access to the following tools:\n"
+                                          "1. list_sheets: Get available sheet tab names.\n"
+                                          "2. get_sheet_data: Read contents from a specific tab.\n"
+                                          "3. write_to_sheet: Update a single cell.\n"
+                                          "4. write_multiple_to_sheet: Update multiple cells in one go.\n"
+                                          f"Sheet ID you are working with: {sheet}\n"
+                                          f"Available tabs in this sheet: {sheet_list_text}\n"
+                                          f"\nCurrent tab content:\n{sheet_context}\n\n"
+                                          "⚠️ IMPORTANT: Always determine the correct tab name before reading or writing.\n"
+                                          "- Use `list_sheets` to find tab names.\n"
+                                          "- Always call `get_sheet_data` to get the exact cell reference before writing.\n"
             )
+
         }
 
         chat_history.append({"role": "user", "content": message})
@@ -72,8 +74,11 @@ def process_message(message, sheet_id):
                     name = msg.name
 
                     if name == "get_sheet_data":
-                        result_obj = read_entire_sheet(args.get("sheet_id") or sheetID)
+                        sheet_id = args.get("sheet_id") or sheetID
+                        sheet_tab = args.get("sheet_tab")
+                        result_obj = read_entire_sheet(sheet_id, sheet_tab)
                         result = result_obj["data"] if result_obj["success"] else f"Error: {result_obj['error']}"
+
                     elif name == "write_to_sheet":
                         result = write_to_sheet(
                             sheet_id=args.get("sheet_id") or sheetID,

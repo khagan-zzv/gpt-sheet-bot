@@ -2,16 +2,20 @@ function_tools = [
     {
         "type": "function",
         "name": "get_sheet_data",
-        "description": "Fetch the full workout sheet for the user.",
+        "description": "Fetch values from a specific tab in the user's Google Sheet.",
         "parameters": {
             "type": "object",
             "properties": {
                 "sheet_id": {
                     "type": "string",
                     "description": "Google Sheet ID"
+                },
+                "sheet_tab": {
+                    "type": "string",
+                    "description": "Name of the tab to read (like 'Week 2')"
                 }
             },
-            "required": ["sheet_id"],
+            "required": ["sheet_id","sheet_tab"],
             "additionalProperties": False
         },
         "strict": True
