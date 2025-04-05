@@ -1,4 +1,5 @@
 import asyncio
+from secrets import authorized_user_id
 from telegram import Update
 from telegram.ext import ContextTypes
 import state
@@ -13,6 +14,10 @@ from ai_control.ai_control import process_message
 async def handle_user_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message.text.strip()
 
+    if update.effective_user.id != authorized_user_id:
+        print(update.effective_user.id)
+        await update.message.reply_text("🚫 Sorry, this bot is private.")
+        return
     if context.user_data.get(WAITING_PROMPT):
         state.system_prompt = message
         context.user_data[WAITING_PROMPT] = False

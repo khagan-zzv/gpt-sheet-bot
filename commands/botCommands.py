@@ -8,7 +8,7 @@ WAITING_PROMPT = "expecting_prompt"
 WAITING_SHEET_CHANGE = "expecting_sheet_id_change"
 WAITING_SYSTEM_PROMPT = "expecting_system_prompt"
 
-# /start command
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
     context.user_data[WAITING_SHEET_ID] = True

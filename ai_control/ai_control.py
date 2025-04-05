@@ -7,8 +7,7 @@ from sheets.readSheet import read_entire_sheet
 from secrets import open_ai_key
 from state import sheetID
 from sheets.writeSheet import write_to_sheet, write_multiple_to_sheet
-from sheets.findCell import find_cell
-from sheets.getSheets import list_sheet_names
+from sheets.listSheets import list_sheet_names
 
 openai.api_key = open_ai_key
 
@@ -89,11 +88,6 @@ def process_message(message, sheet_id):
                         result = write_multiple_to_sheet(
                             sheet_id=args.get("sheet_id") or sheetID,
                             updates=args["updates"]
-                        )
-                    elif name == "find_cell":
-                        result = find_cell(
-                            sheet_data=args["sheet_data"],
-                            search_for=args["search_for"]
                         )
                     elif name == "list_sheets":
                         result = list_sheet_names(args.get("sheet_id") or sheetID)
