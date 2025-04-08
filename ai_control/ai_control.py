@@ -5,20 +5,16 @@ import state
 from ai_control.function_tools import function_tools
 from sheets.readSheet import read_entire_sheet
 from secrets import open_ai_key
-from state import sheetID
+from state import sheetID, chat_history
 from sheets.writeSheet import write_to_sheet, write_multiple_to_sheet
 from sheets.listSheets import list_sheet_names
 
 openai.api_key = open_ai_key
-
-chat_history = []
-MAX_HISTORY = 10
 tools = function_tools
 
 
 def process_message(message, sheet_id):
     try:
-        global chat_history
 
         sheet = sheetID or sheet_id
         result = read_entire_sheet(sheet)
@@ -49,11 +45,11 @@ def process_message(message, sheet_id):
 
         }
 
-        chat_history.append({"role": "user", "content": message})
-        if len(chat_history) > MAX_HISTORY:
-            chat_history = chat_history[-MAX_HISTORY:]
+        state.chat_history.append({"role": "user", "content": message})
+        if len(state.chat_history) > state.MAX_HISTORY:
+            chat_history = state.chat_history[-state.MAX_HISTORY:]
 
-        input_messages = [system_message] + chat_history.copy()
+        input_messages = [system_message] + state.chat_history.copy()
 
         while True:
             response = openai.responses.create(
@@ -105,9 +101,9 @@ def process_message(message, sheet_id):
 
             if not function_called:
                 if response.output_text:
-                    chat_history.append({"role": "assistant", "content": response.output_text})
-                    if len(chat_history) > MAX_HISTORY:
-                        chat_history = chat_history[-MAX_HISTORY:]
+                    state.chat_history.append({"role": "assistant", "content": response.output_text})
+                    if len(state.chat_history) > state.MAX_HISTORY:
+                        state.chat_history = state.chat_history[-state.MAX_HISTORY:]
                 return {"success": True, "data": response.output_text or "🤖 (No response generated)"}
 
     except Exception as e:

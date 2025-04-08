@@ -11,6 +11,7 @@ from commands.botCommands import (
 
 from ai_control.ai_control import process_message
 
+
 async def handle_user_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message.text.strip()
 
@@ -21,6 +22,7 @@ async def handle_user_message(update: Update, context: ContextTypes.DEFAULT_TYPE
     if context.user_data.get(WAITING_PROMPT):
         state.system_prompt = message
         context.user_data[WAITING_PROMPT] = False
+        state.chat_history.clear()
         await update.message.reply_text("✅ System prompt updated!")
         return
 
